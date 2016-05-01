@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^update-attended-course/$', views.update_attended_course),
     url(r'^update-course-rating/$', views.update_course_rating),
     url(r'^get-course-rating/$', views.get_course_rating),
+    url(r'^get-course-ratings/$', views.get_course_ratings),
     url(r'^get-attended-course-rating/$', views.get_attended_course_rating),
+    url(r'^get-attended-course-ratings/$', views.get_attended_course_ratings),
 ]

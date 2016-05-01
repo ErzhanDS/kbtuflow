@@ -231,6 +231,30 @@ def get_course_rating(request):
     })
 
 
+def get_course_ratings(request):
+    courses = Course.objects.all()
+    print courses
+    data = []
+    for course in courses:
+        try:
+            total = CourseRating.objects.filter(course__name=course.name).exclude(useful__exact="").count()
+            useful = CourseRating.objects.filter(course__name=course.name, useful='yes').count()
+            easy = CourseRating.objects.filter(course__name=course.name, easy='yes').count()
+            liked = CourseRating.objects.filter(course__name=course.name, liked='yes').count()
+            if total:
+                data.append({
+                    'total': total,
+                    'useful': useful,
+                    'easy': easy,
+                    'liked': liked,
+                    'name': course.name,
+                })
+        except:
+            pass
+
+    return JsonResponse({'count': len(data), 'data': data})
+
+
 def get_attended_course_rating(request):
     course_name = request.GET.get('course_name').replace('_', ' ')
     teacher_first_name = request.GET.get('teacher_first_name')
@@ -264,3 +288,35 @@ def get_attended_course_rating(request):
         'engaging': engaging,
         'easy': easy,
     })
+
+
+def get_attended_course_ratings(request):
+    teachers = Teacher.objects.all()
+    data = []
+    for teacher in teachers:
+        total = AttendedCourse.objects.filter(
+            teacher__first_name=teacher.first_name,
+            teacher__last_name=teacher.last_name).exclude(clear__exact="").count()
+        clear = AttendedCourse.objects.filter(
+            teacher__first_name=teacher.first_name,
+            teacher__last_name=teacher.last_name,
+            clear='yes').count()
+        engaging = AttendedCourse.objects.filter(
+            teacher__first_name=teacher.first_name,
+            teacher__last_name=teacher.last_name,
+            engaging='yes').count()
+        easy = AttendedCourse.objects.filter(
+            teacher__first_name=teacher.first_name,
+            teacher__last_name=teacher.last_name,
+            easy='yes').count()
+        if total:
+            data.append({
+                'total': total,
+                'clear': clear,
+                'engaging': engaging,
+                'easy': easy,
+                'first_name': teacher.first_name,
+                'last_name': teacher.last_name,
+            })
+
+    return JsonResponse({'count': len(data), 'data': data})

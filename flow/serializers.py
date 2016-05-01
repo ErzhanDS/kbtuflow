@@ -18,13 +18,13 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
-        fields = ('url', 'name', 'teachers')
+        fields = ('url', 'name', 'image', 'teachers')
 
 
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Teacher
-        fields = ('url', 'first_name', 'last_name', 'courses')
+        fields = ('url', 'first_name', 'last_name', 'image', 'courses')
 
 
 class StudentSerializer(serializers.HyperlinkedModelSerializer):

@@ -9,7 +9,7 @@ class Teacher(models.Model):
 
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    image = models.TextField(null=True)
+    image = models.TextField(default='http://s32.postimg.org/nnv9eh6tx/teacher.png')
 
     def __unicode__(self):
         return self.last_name + ' ' + self.first_name
@@ -20,7 +20,7 @@ class Teacher(models.Model):
 
 class Course(models.Model):
     teachers = models.ManyToManyField(Teacher, through=Teacher.courses.through, blank=True)
-    image = models.TextField(null=True)
+    image = models.TextField(default='http://s32.postimg.org/o1wle2qxh/course.png')
 
     name = models.CharField(max_length=200)
 

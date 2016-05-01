@@ -30,14 +30,14 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('name', 'teacher__first_name', 'teacher__last_name')
+    filter_fields = ('name', 'image', 'teacher__first_name', 'teacher__last_name')
 
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('first_name', 'last_name', 'course__name')
+    filter_fields = ('first_name', 'last_name', 'image', 'course__name')
 
 
 class StudentViewSet(viewsets.ModelViewSet):
@@ -52,8 +52,10 @@ class AttendedCourseFilter(filters.FilterSet):
         model = AttendedCourse
         fields = [
             'course__name',
+            'course__image',
             'teacher__first_name',
             'teacher__last_name',
+            'teacher__image',
             'student__username',
             'student__first_name',
             'student__last_name',
@@ -64,9 +66,6 @@ class AttendedCourseFilter(filters.FilterSet):
 
 
 class AttendedCourseViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
     queryset = AttendedCourse.objects.all()
     serializer_class = AttendedCourseSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -76,13 +75,19 @@ class AttendedCourseViewSet(viewsets.ModelViewSet):
 class CourseRatingFilter(filters.FilterSet):
     class Meta:
         model = CourseRating
-        fields = ['course__name', 'student__username', 'student__first_name', 'student__last_name', 'useful', 'easy', 'liked']
+        fields = [
+            'course__name',
+            'course__image',
+            'student__username',
+            'student__first_name',
+            'student__last_name',
+            'useful',
+            'easy',
+            'liked'
+        ]
 
 
 class CourseRatingViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
     queryset = CourseRating.objects.all()
     serializer_class = CourseRatingSerializer
     filter_backends = (filters.DjangoFilterBackend,)

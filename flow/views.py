@@ -241,14 +241,14 @@ def get_course_ratings(request):
             useful = CourseRating.objects.filter(course__name=course.name, useful='yes').count()
             easy = CourseRating.objects.filter(course__name=course.name, easy='yes').count()
             liked = CourseRating.objects.filter(course__name=course.name, liked='yes').count()
-            if total:
-                data.append({
-                    'total': total,
-                    'useful': useful,
-                    'easy': easy,
-                    'liked': liked,
-                    'name': course.name,
-                })
+            data.append({
+                'total': total,
+                'useful': useful,
+                'easy': easy,
+                'liked': liked,
+                'name': course.name,
+                'image': course.image,
+            })
         except:
             pass
 
@@ -309,14 +309,14 @@ def get_attended_course_ratings(request):
             teacher__first_name=teacher.first_name,
             teacher__last_name=teacher.last_name,
             easy='yes').count()
-        if total:
-            data.append({
-                'total': total,
-                'clear': clear,
-                'engaging': engaging,
-                'easy': easy,
-                'first_name': teacher.first_name,
-                'last_name': teacher.last_name,
-            })
+        data.append({
+            'total': total,
+            'clear': clear,
+            'engaging': engaging,
+            'easy': easy,
+            'first_name': teacher.first_name,
+            'last_name': teacher.last_name,
+            'image': teacher.image,
+        })
 
     return JsonResponse({'count': len(data), 'data': data})

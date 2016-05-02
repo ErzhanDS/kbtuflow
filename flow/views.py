@@ -233,7 +233,6 @@ def get_course_rating(request):
 
 def get_course_ratings(request):
     courses = Course.objects.all()
-    print courses
     data = []
     for course in courses:
         try:
